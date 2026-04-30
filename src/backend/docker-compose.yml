@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: signage
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+  backend:
+    image: node:22
+    working_dir: /app
+    command: sh -c "npm install && node server.js"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://admin:password@db:5432/signage
+      JWT_SECRET: change-me-to-a-long-random-string
+    volumes:
+      - ./:/app
+      - ./uploads:/app/uploads
+
+volumes:
+  pgdata:
