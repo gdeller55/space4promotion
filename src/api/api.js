@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://spiritism-coming-preachy.ngrok-free.dev/api";
 
 export async function apiGet(path) {
   const res = await fetch(`${API_BASE}${path}`);
