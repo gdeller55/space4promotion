@@ -1,4 +1,4 @@
-const API_BASE = "https://spiritism-coming-preachy.ngrok-free.dev/api";
+const API_BASE = "https://spiritism-coming-preachy.ngrok-free.dev";
 
 export async function apiGet(path) {
   const res = await fetch(`${API_BASE}${path}`);
@@ -21,6 +21,14 @@ export async function apiPut(path, data) {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error("API error");
+  return res.json();
+}
+
+export async function apiDelete(path) {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: "DELETE"
   });
   if (!res.ok) throw new Error("API error");
   return res.json();

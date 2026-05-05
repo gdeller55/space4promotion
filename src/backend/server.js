@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/api/screens", screensRoutes);
+app.use("/screens", screensRoutes);
 
 // Test route
 app.get("/", (req, res) => {
