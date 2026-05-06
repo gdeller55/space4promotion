@@ -25,7 +25,8 @@ export const base44 = {
   // =========================
   entities: {
     Playlist: {
-      list: () => apiGet("/playlists"),
+      Screen: {
+  list: () => apiGet("/api/screens"),
       get: (id) => apiGet(`/playlists/${id}`),
       create: (data) => apiPost("/playlists", data),
       update: (id, data) => apiPut(`/playlists/${id}`, data),
@@ -33,7 +34,8 @@ export const base44 = {
     },
 
     Media: {
-      list: () => apiGet("/media"),
+      Screen: {
+  list: () => apiGet("/api/screens"),
       get: (id) => apiGet(`/media/${id}`),
       create: (data) => apiPost("/media", data),
       update: (id, data) => apiPut(`/media/${id}`, data),
@@ -41,7 +43,8 @@ export const base44 = {
     },
 
     Screen: {
-      list: () => apiGet("/screens"),
+      Screen: {
+      list: () => apiGet("/api/screens"),
       get: (id) => apiGet(`/screens/${id}`),
       create: (data) => apiPost("/screens", data),
       update: (id, data) => apiPut(`/screens/${id}`, data),
@@ -49,7 +52,8 @@ export const base44 = {
     },
 
     LayoutZone: {
-      list: () => apiGet("/layout-zones"),
+      Screen: {
+  list: () => apiGet("/api/screens"),
       get: (id) => apiGet(`/layout-zones/${id}`),
       create: (data) => apiPost("/layout-zones", data),
       update: (id, data) => apiPut(`/layout-zones/${id}`, data),
@@ -57,7 +61,8 @@ export const base44 = {
     },
 
     Advertiser: {
-      list: () => apiGet("/advertisers"),
+      Screen: {
+  list: () => apiGet("/api/screens"),
       filter: () => apiGet("/advertisers")
     }
   },

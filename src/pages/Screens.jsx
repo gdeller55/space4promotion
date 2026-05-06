@@ -247,7 +247,7 @@ export default function Screens() {
           onDelete={(id) => deleteScreenMutation.mutate(id)}
         />
 
-        {showPairingForm && user && (
+        {showPairingForm && (
           <ScreenPairingForm
             groups={groups}
             onCancel={() => setShowPairingForm(false)}
