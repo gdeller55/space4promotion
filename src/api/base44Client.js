@@ -19,6 +19,7 @@ export const base44 = {
       return apiPost("/auth/logout");
     }
   },
+}
 
   // =========================
   // ENTITIES
@@ -32,6 +33,8 @@ export const base44 = {
       update: (id, data) => apiPut(`/playlists/${id}`, data),
       delete: (id) => apiDelete(`/playlists/${id}`)
     },
+  }
+}
 
     Media: {
       Screen: {
@@ -41,6 +44,7 @@ export const base44 = {
       update: (id, data) => apiPut(`/media/${id}`, data),
       delete: (id) => apiDelete(`/media/${id}`)
     },
+  }
 
     Screen: {
       Screen: {
@@ -50,6 +54,7 @@ export const base44 = {
       update: (id, data) => apiPut(`/screens/${id}`, data),
       delete: (id) => apiDelete(`/screens/${id}`)
     },
+  }
 
     LayoutZone: {
       Screen: {
