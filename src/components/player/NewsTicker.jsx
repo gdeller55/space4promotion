@@ -91,7 +91,6 @@ const styles = {
     borderTop: '1px solid rgba(255, 255, 255, 0.2)',
   },
   ticker: {
-    display: 'inline-block',
     whiteSpace: 'nowrap',
     animation: 'ticker 60s linear infinite',
     paddingLeft: '100%',
