@@ -18,7 +18,7 @@ app.use(express.json());
 
 
 // Routes
-app.use("/screens", screensRoutes);
+app.use("/api/screens", screensRoutes);
 
 // Test route
 app.get("/", (req, res) => {
