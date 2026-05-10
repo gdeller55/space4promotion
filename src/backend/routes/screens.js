@@ -2,19 +2,17 @@ import express from "express";
 
 const router = express.Router();
 
-// Temporary memory database
-let screens = [];
+// Persistent temp memory
+const screens = {};
 
 // GET all screens
 router.get("/", (req, res) => {
-  res.json(screens);
+  res.json(Object.values(screens));
 });
 
 // GET one screen
 router.get("/:id", (req, res) => {
-  const screen = screens.find(
-    (s) => s.id === Number(req.params.id)
-  );
+  const screen = screens[req.params.id];
 
   if (!screen) {
     return res.status(404).json({
@@ -27,45 +25,48 @@ router.get("/:id", (req, res) => {
 
 // CREATE screen
 router.post("/", (req, res) => {
+  const id = Date.now().toString();
+
   const newScreen = {
-    id: Date.now(),
+    id,
     name: req.body.name || "New Screen",
-    area_id: req.body.area_id || null,
+    area_id: null,
     paired: false,
     status: "online",
-    content: []
+    playlist: [],
+    content: [],
+    lastSeen: new Date().toISOString()
   };
 
-  screens.push(newScreen);
+  screens[id] = newScreen;
+
+  console.log("Registered screen:", newScreen);
 
   res.status(201).json(newScreen);
 });
 
 // UPDATE screen
 router.put("/:id", (req, res) => {
-  const index = screens.findIndex(
-    (s) => s.id === Number(req.params.id)
-  );
+  const screen = screens[req.params.id];
 
-  if (index === -1) {
+  if (!screen) {
     return res.status(404).json({
       error: "Screen not found"
     });
   }
 
-  screens[index] = {
-    ...screens[index],
-    ...req.body
+  screens[req.params.id] = {
+    ...screen,
+    ...req.body,
+    lastSeen: new Date().toISOString()
   };
 
-  res.json(screens[index]);
+  res.json(screens[req.params.id]);
 });
 
 // DELETE screen
 router.delete("/:id", (req, res) => {
-  screens = screens.filter(
-    (s) => s.id !== Number(req.params.id)
-  );
+  delete screens[req.params.id];
 
   res.json({
     success: true
