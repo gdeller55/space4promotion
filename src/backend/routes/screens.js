@@ -2,75 +2,57 @@ import express from "express";
 
 const router = express.Router();
 
-// Persistent temp memory
-const screens = {};
+let screens = [];
 
-// GET all screens
 router.get("/", (req, res) => {
-  res.json(Object.values(screens));
+  res.json(screens);
 });
 
-// GET one screen
+router.post("/", (req, res) => {
+  const newScreen = {
+    id: Date.now().toString(),
+    name: req.body.name || "New Screen",
+    area_id: req.body.area_id || null,
+    status: "online",
+    paired: false,
+    content: [],
+    playlist: [],
+    lastSeen: new Date().toISOString()
+  };
+
+  screens.push(newScreen);
+  res.status(201).json(newScreen);
+});
+
 router.get("/:id", (req, res) => {
-  const screen = screens[req.params.id];
+  const screen = screens.find((s) => s.id === req.params.id);
 
   if (!screen) {
-    return res.status(404).json({
-      error: "Screen not found"
-    });
+    return res.status(404).json({ error: "Screen not found" });
   }
 
   res.json(screen);
 });
 
-// CREATE screen
-router.post("/", (req, res) => {
-  const id = Date.now().toString();
-
-  const newScreen = {
-    id,
-    name: req.body.name || "New Screen",
-    area_id: null,
-    paired: false,
-    status: "online",
-    playlist: [],
-    content: [],
-    lastSeen: new Date().toISOString()
-  };
-
-  screens[id] = newScreen;
-
-  console.log("Registered screen:", newScreen);
-
-  res.status(201).json(newScreen);
-});
-
-// UPDATE screen
 router.put("/:id", (req, res) => {
-  const screen = screens[req.params.id];
+  const index = screens.findIndex((s) => s.id === req.params.id);
 
-  if (!screen) {
-    return res.status(404).json({
-      error: "Screen not found"
-    });
+  if (index === -1) {
+    return res.status(404).json({ error: "Screen not found" });
   }
 
-  screens[req.params.id] = {
-    ...screen,
+  screens[index] = {
+    ...screens[index],
     ...req.body,
     lastSeen: new Date().toISOString()
   };
 
-  res.json(screens[req.params.id]);
+  res.json(screens[index]);
 });
 
-// DELETE screen
 router.delete("/:id", (req, res) => {
-  delete screens[req.params.id];
-
-  res.json({
-    success: true
-  });
+  screens = screens.filter((s) => s.id !== req.params.id);
+  res.json({ success: true });
 });
 
 export default router;
